@@ -1,6 +1,9 @@
 // import { useState } from "react"
-import { RecoilRoot, useRecoilValue } from "recoil"
-import { jobsAtom, messagingAtom, networkAtom, notificationAtom, totalNotificationSelector } from "./atoms"
+import { RecoilRoot, useRecoilState, useRecoilValue } from "recoil"
+// import { jobsAtom, messagingAtom, networkAtom, notificationAtom, notifications, totalNotificationSelector } from "./atoms"
+import { notifications, totalNotificationSelector } from "./atoms"
+import { useEffect } from "react"
+import axios from "axios";
 
 function App() {
   return <RecoilRoot>
@@ -10,19 +13,32 @@ function App() {
 }
 
 function MainApp() {
-  const networkNotificatitonCount = useRecoilValue(networkAtom)
-  const jobsAtomCount = useRecoilValue(jobsAtom)
-  const messageAtomCount = useRecoilValue(messagingAtom)
-  const notificationAtomCount = useRecoilValue(notificationAtom)
-
+  // const networkNotificatitonCount = useRecoilValue(networkAtom)
+  // const jobsAtomCount = useRecoilValue(jobsAtom)
+  // const messageAtomCount = useRecoilValue(messagingAtom)
+  // const notificationAtomCount = useRecoilValue(notificationAtom)
+  // const totalNotificationCount = useRecoilValue(totalNotificationSelector)
+  
+  //consolidated
+  const networkCount = useRecoilValue(notifications)
   const totalNotificationCount = useRecoilValue(totalNotificationSelector)
+  
+  // useEffect(() => {
+  //   //fetch
+  //   axios.get("https://sum-server.100xdevs.com/notifications")
+  //   .then(res => {
+  //     setNetworkCount(res.data)
+  //   })
+  // }, [])
+
+  
 
 
   return (
     <>
       <button>Home</button>
 
-      <button>
+      {/* <button>
         My Network (
         {networkNotificatitonCount >= 100 ? "99+" : networkNotificatitonCount})
       </button>
@@ -35,7 +51,22 @@ function MainApp() {
         {notificationAtomCount >= 100 ? "99+" : notificationAtomCount})
       </button>
 
-      <button>Me ()</button>
+      <button>Me ({totalNotificationCount})</button> */}
+
+      <button>
+        My Network (
+        {networkCount.network >= 100 ? "99+" : networkCount.network})
+      </button>
+      <button>Jobs ({networkCount.jobs})</button>
+      <button>
+        Messaging ({networkCount.messaging})
+      </button>
+      <button>
+        Notification (
+        {networkCount.notifications})
+      </button>
+
+      <button>Me ({totalNotificationCount})</button>
     </>
   );
 }
